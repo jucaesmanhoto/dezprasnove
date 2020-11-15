@@ -9,6 +9,10 @@
 require 'faker'
 require 'pry-byebug'
 
+puts "Destroing #{Skill.all.size} skills"
+Skill.destroy_all
+puts "Destroing #{Location.all.size} locations"
+Location.destroy_all
 puts "Destroing #{Application.all.size} aplications"
 Application.destroy_all
 puts "Destroing #{Opportunity.all.size} opportunities"
@@ -78,4 +82,34 @@ Opportunity.all.each do |opportunity|
             )
         puts "Application from #{application.candidate.name} to #{application.opportunity.job_title} created"
     end
+end
+
+10.times do
+    location = Location.create!(
+        address: Faker::Address.street_address,
+        city: Faker::Address.city,
+        latitude: Faker::Address.latitude,
+        longitude: Faker::Address.longitude,
+    )
+    puts "location #{location.address} created"
+end
+
+10.times do
+    skill = Skill.create!(
+        name: Faker::ProgrammingLanguage.name,
+        skill_type: "hard",
+        short_description: Faker::Marketing.buzzwords,
+        long_description: Faker::Lorem.paragraphs(number: 3)
+    )
+    puts "Hard skill #{skill.name} created"
+end
+
+10.times do
+    skill = Skill.create!(
+        name: Faker::Superhero.power,
+        skill_type: "soft",
+        short_description: Faker::Marketing.buzzwords,
+        long_description: Faker::Lorem.paragraphs(number: 3)
+    )
+    puts "Soft skill #{skill.name} created"
 end

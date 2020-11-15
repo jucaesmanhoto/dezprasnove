@@ -1,2 +1,13 @@
-<h1>Candidates#show</h1>
+<h1><%= @candidate.name %></h1>
 <p>Find me in app/views/candidates/show.html.erb</p>
+
+
+<h2>Hard Skills</h2>
+<% @hard_skills.each do |skill| %>
+    <p><%= skill.name %></p>
+<% end %>
+
+<h2>Soft Skills</h2>
+<% @soft_skills.each do |skill| %>
+    <p><%= skill.name %></p>
+<% end %>

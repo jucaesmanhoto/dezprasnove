@@ -15,6 +15,8 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.included_models = %w(Candidate Enterprise Location Opportunity Skill User)
+
   ## == CancanCan ==
   # config.authorize_with :cancancan
 
