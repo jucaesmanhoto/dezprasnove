@@ -4,6 +4,22 @@
         <h3>Job Description</h3>
         <p><%= @opportunity.job_description %></p>
         <%= link_to @opportunity.enterprise.name, enterprise_path(@opportunity.enterprise) %>
+
+
+        <h4 class="pt-5">Desirable Skills</h4>
+        <div class="row">
+            <% @opportunity.opportunity_skills.each do |opportunity_skill| %>
+                <div class="col-2 p-2">
+                    <div class="p-2 flex-column justify-content-center" style= "border: 1px solid black; height: 100px;">
+                        <h5><%= opportunity_skill.skill.name %></h5>
+                        <% unless opportunity_skill.years.nil? %>
+                            <p> Minimun: <%= opportunity_skill.years %> years</p>
+                        <% end %>
+                    </div>
+                    
+                </div>
+            <% end %>
+        </div>
  
         <div class= "p-5">
             <%= link_to "APPLY", opportunity_applications_path(@opportunity), class: 'btn btn-primary', method: :post %>

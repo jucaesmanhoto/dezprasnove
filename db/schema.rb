@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_15_031052) do
+ActiveRecord::Schema.define(version: 2020_11_15_040411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_11_15_031052) do
   end
 
   create_table "candidate_skills", force: :cascade do |t|
+    t.integer "years"
     t.bigint "candidate_id", null: false
     t.bigint "skill_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -86,6 +87,16 @@ ActiveRecord::Schema.define(version: 2020_11_15_031052) do
     t.index ["enterprise_id"], name: "index_opportunities_on_enterprise_id"
   end
 
+  create_table "opportunity_skills", force: :cascade do |t|
+    t.integer "years"
+    t.bigint "opportunity_id", null: false
+    t.bigint "skill_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["opportunity_id"], name: "index_opportunity_skills_on_opportunity_id"
+    t.index ["skill_id"], name: "index_opportunity_skills_on_skill_id"
+  end
+
   create_table "skills", force: :cascade do |t|
     t.string "name"
     t.string "skill_type"
@@ -120,4 +131,6 @@ ActiveRecord::Schema.define(version: 2020_11_15_031052) do
   add_foreign_key "enterprise_locations", "locations"
   add_foreign_key "enterprises", "users"
   add_foreign_key "opportunities", "enterprises"
+  add_foreign_key "opportunity_skills", "opportunities"
+  add_foreign_key "opportunity_skills", "skills"
 end

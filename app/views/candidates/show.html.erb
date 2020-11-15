@@ -3,11 +3,11 @@
 
 
 <h2>Hard Skills</h2>
-<% @hard_skills.each do |skill| %>
-    <p><%= skill.name %></p>
+<% @hard_skills.each do |candidate_skill| %>
+    <p><%= candidate_skill.skill.name %>: <%= candidate_skill.years %> years</p>
 <% end %>
 
 <h2>Soft Skills</h2>
-<% @soft_skills.each do |skill| %>
-    <p><%= skill.name %></p>
+<% @soft_skills.each do |candidate_skill| %>
+    <p><%= candidate_skill.skill.name %></p>
 <% end %>

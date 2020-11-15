@@ -94,7 +94,8 @@ end
     puts "location #{location.address} created"
 end
 
-10.times do
+
+20.times do
     skill = Skill.create!(
         name: Faker::ProgrammingLanguage.name,
         skill_type: "hard",
@@ -104,7 +105,7 @@ end
     puts "Hard skill #{skill.name} created"
 end
 
-10.times do
+20.times do
     skill = Skill.create!(
         name: Faker::Superhero.power,
         skill_type: "soft",
@@ -112,4 +113,44 @@ end
         long_description: Faker::Lorem.paragraphs(number: 3)
     )
     puts "Soft skill #{skill.name} created"
+end
+
+# Add locations and favorite skills to the enterprises
+Enterprise.all.each do |enterprise|
+    rand(1..3).times do
+        enterprise.locations << Location.all.sample
+    end
+    rand(1..8).times do
+        enterprise.skills << Skill.all.sample
+    end
+    enterprise.save
+end
+
+# Add skills to candidates
+Candidate.all.each do |candidate|
+    rand(5..10).times do
+        skill = Skill.all.sample
+        candidate_skill = CandidateSkill.create!(
+            candidate: candidate,
+            years: skill.skill_type == "soft" ? nil : rand(0..20),
+            skill: skill
+        )
+        if candidate_skill.skill.skill_type == "soft"
+            puts "#{candidate_skill.candidate.name} has #{candidate_skill.skill.name} as soft skill"
+        else
+            puts "The candidate #{candidate_skill.candidate.name} has #{candidate_skill.years} year(s) of experience of #{candidate_skill.skill.name}"
+        end
+    end
+end
+
+# Add skills to opportunities
+Opportunity.all.each do |opportunity|
+    rand(5..10).times do
+        skill = Skill.all.sample
+        OpportunitySkill.create!(
+            opportunity: opportunity,
+            years: skill.skill_type == "soft" ? nil : rand(0..20),
+            skill: skill
+        )
+    end
 end
