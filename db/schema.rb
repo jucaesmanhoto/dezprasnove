@@ -64,6 +64,12 @@ ActiveRecord::Schema.define(version: 2020_11_15_040411) do
 
   create_table "enterprises", force: :cascade do |t|
     t.string "name"
+    t.text "about"
+    t.integer "number_of_employees"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.string "contact_name"
+    t.boolean "show_contact_info"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

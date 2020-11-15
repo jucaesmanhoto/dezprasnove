@@ -9,7 +9,11 @@
 require 'faker'
 require 'pry-byebug'
 
+
 puts "Destroing #{Skill.all.size} skills"
+OpportunitySkill.destroy_all
+EnterpriseFavoriteSkill.destroy_all
+CandidateSkill.destroy_all
 Skill.destroy_all
 puts "Destroing #{Location.all.size} locations"
 Location.destroy_all
@@ -50,6 +54,8 @@ User.all.each do |u|
             enterprise = Enterprise.create!(
                 user: u,
                 name: Faker::Company.name,
+                about: Faker::Lorem.paragraphs(number: 5),
+                number_of_employees: rand(0..9999),
                 )
             puts "Enterprise #{enterprise.name} created"
         else
@@ -70,8 +76,14 @@ end
     opportunity = Opportunity.create!(
         job_title: Faker::Job.title,
         job_description: Faker::Lorem.paragraph(sentence_count: 3..7),
-        contract_type: Faker::Job.employment_type,
+        contract_type: ['formal', 'autonomous'].sample,
+        job_type: Faker::Job.employment_type,
         enterprise: Enterprise.all.sample,
+        contact_name: Faker::BossaNova.artist,
+        contact_job_position: Faker::Job.position,
+        contact_email: Faker::Internet.email,
+        contact_phone: "(#{rand(11..99)}) #{[3, 5, 9].sample}#{rand(100..999)}-#{rand(1000..9999)}",
+        show_contact_info: rand(0..1) == 1
         )
     puts "Opportunity #{opportunity.job_title} created"
 end
