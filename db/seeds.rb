@@ -53,9 +53,12 @@ User.all.each do |u|
                 )
             puts "Enterprise #{enterprise.name} created"
         else
+            open_to_work = rand(0..1) == 1
             candidate = Candidate.create!(
                 user: u,
-                name: Faker::Name.name
+                name: Faker::Name.name,
+                open_to_work: open_to_work,
+                liveliness: open_to_work ? rand(0..5) : 0
                 )
             puts "Candidate #{candidate.name} created"
         end
