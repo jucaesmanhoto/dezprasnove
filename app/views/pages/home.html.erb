@@ -1,2 +1,16 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container p-3">
+    <h1 class="text-center">Available Ppportunities</h1>
+    <div class="row">
+        <% @opportunities.each do |opportunity| %>
+            <div class="col-sm-3">
+                <%= link_to opportunity_path(opportunity) do %>
+                    <div class="card px-3 my-3 justify-content-center" style="height: 100px;">
+                        <div class="card-title text-center">
+                            <%= opportunity.job_title %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+    </div>
+</div>
