@@ -10,6 +10,10 @@ require 'faker'
 require 'pry-byebug'
 
 
+puts "Destroing #{SocialNetworkAccount.all.size} social network accounts"
+SocialNetworkAccount.destroy_all
+CandidateSocialNetwork.destroy_all
+EnterpriseSocialNetwork.destroy_all
 puts "Destroing #{Skill.all.size} skills"
 OpportunitySkill.destroy_all
 EnterpriseFavoriteSkill.destroy_all
@@ -168,4 +172,28 @@ Opportunity.all.each do |opportunity|
             skill: skill
         )
     end
+end
+
+20.times do
+    network_accounts = SocialNetworkAccount.create!(
+        social_network_name: Faker::App.name,
+        account_url: Faker::Internet.url
+    )
+    puts "Network #{network_accounts.social_network_name} account created"
+end
+
+# Add social network account to enterprises
+Enterprise.all.each do |enterprise|
+    rand(1..5).times do
+        enterprise.social_network_accounts << SocialNetworkAccount.all.sample
+    end
+    enterprise.save
+end
+
+# Add social network account to candidates
+Candidate.all.each do |candidate|
+    rand(1..5).times do
+        candidate.social_network_accounts << SocialNetworkAccount.all.sample
+    end
+    candidate.save
 end

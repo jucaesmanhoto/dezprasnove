@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_15_040411) do
+ActiveRecord::Schema.define(version: 2020_11_15_143319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 2020_11_15_040411) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["candidate_id"], name: "index_candidate_skills_on_candidate_id"
     t.index ["skill_id"], name: "index_candidate_skills_on_skill_id"
+  end
+
+  create_table "candidate_social_networks", force: :cascade do |t|
+    t.bigint "social_network_account_id", null: false
+    t.bigint "candidate_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["candidate_id"], name: "index_candidate_social_networks_on_candidate_id"
+    t.index ["social_network_account_id"], name: "index_candidate_social_networks_on_social_network_account_id"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -62,14 +71,19 @@ ActiveRecord::Schema.define(version: 2020_11_15_040411) do
     t.index ["location_id"], name: "index_enterprise_locations_on_location_id"
   end
 
+  create_table "enterprise_social_networks", force: :cascade do |t|
+    t.bigint "social_network_account_id", null: false
+    t.bigint "enterprise_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["enterprise_id"], name: "index_enterprise_social_networks_on_enterprise_id"
+    t.index ["social_network_account_id"], name: "index_enterprise_social_networks_on_social_network_account_id"
+  end
+
   create_table "enterprises", force: :cascade do |t|
     t.string "name"
     t.text "about"
     t.integer "number_of_employees"
-    t.string "contact_email"
-    t.string "contact_phone"
-    t.string "contact_name"
-    t.boolean "show_contact_info"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -89,6 +103,12 @@ ActiveRecord::Schema.define(version: 2020_11_15_040411) do
     t.string "job_title"
     t.text "job_description"
     t.string "contract_type"
+    t.string "job_type"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.string "contact_name"
+    t.string "contact_job_position"
+    t.boolean "show_contact_info", default: false
     t.bigint "enterprise_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -114,6 +134,13 @@ ActiveRecord::Schema.define(version: 2020_11_15_040411) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "social_network_accounts", force: :cascade do |t|
+    t.string "social_network_name"
+    t.string "account_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -132,11 +159,15 @@ ActiveRecord::Schema.define(version: 2020_11_15_040411) do
   add_foreign_key "applications", "opportunities"
   add_foreign_key "candidate_skills", "candidates"
   add_foreign_key "candidate_skills", "skills"
+  add_foreign_key "candidate_social_networks", "candidates"
+  add_foreign_key "candidate_social_networks", "social_network_accounts"
   add_foreign_key "candidates", "users"
   add_foreign_key "enterprise_favorite_skills", "enterprises"
   add_foreign_key "enterprise_favorite_skills", "skills"
   add_foreign_key "enterprise_locations", "enterprises"
   add_foreign_key "enterprise_locations", "locations"
+  add_foreign_key "enterprise_social_networks", "enterprises"
+  add_foreign_key "enterprise_social_networks", "social_network_accounts"
   add_foreign_key "enterprises", "users"
   add_foreign_key "opportunities", "enterprises"
   add_foreign_key "opportunity_skills", "opportunities"
